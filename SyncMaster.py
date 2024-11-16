@@ -86,8 +86,20 @@ def get_full_path(disk, relative_path):
     if os.name == 'nt':  # Windows
         # Append `:` for Windows if disk is a drive letter
         disk = disk + ":" if len(disk) == 1 and disk.isalpha() else disk
+
+        if "<user>" in relative_path:
+            relative_path = resolve_user_wildcard(relative_path)
+            return Path(relative_path)
+
+
     # Combine the disk and relative path
     return Path(disk) / relative_path
+
+def resolve_user_wildcard(path_str):
+    """
+    Replace a placeholder with the current user's home directory.
+    """
+    return path_str.replace("<user>", str(Path.home()))
 
 
 def copy_to_existing_directory(source_dir, destination_dir):
