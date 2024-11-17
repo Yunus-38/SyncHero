@@ -102,7 +102,6 @@ def backup(profile, overwrite = False, pair = None):
             print_directory_pair_statistics(stats)
         else:
             print(f"Source directory {source_path} does not exist.")
-            return None
     return stats
 
 def restore(profile, overwrite = False, pair = None):
