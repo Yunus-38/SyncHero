@@ -72,7 +72,7 @@ def restore(profile):
     for directory_pair in profile["directoryPairs"]:
         source_path = get_full_path(source_disk, directory_pair["source"])
         destination_path = get_full_path(destination_disk, directory_pair["destination"])
-        if source_path.exists():
+        if destination_path.exists():
             copy_to_existing_directory(destination_path, source_path)
         else:
             print(f"Source directory {source_path} does not exist.")
