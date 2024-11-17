@@ -27,11 +27,14 @@ def main():
     # Flag to force overwrite
     parser.add_argument("-f", "--force", action="store_true", help="Overwrite existing files without prompt.")
 
+    # Parameter for the specific Directory Pair, ignores rest of the profile
+    parser.add_argument("-p", "--pair", type=str, help="Specify the specific directory pair to sync.") 
 
     # Step 3: Parse arguments
     args = parser.parse_args()
 
     _force = args.force
+
 
     file_path = Path(__file__).parent / "profiles.json"
     
@@ -47,10 +50,10 @@ def main():
     for profile in data:
         if profile["name"] == args.profile:
             if args.command == "backup":
-                backup(profile, _force)
+                backup(profile, _force, args.pair)
                 profile_found = True
             elif args.command == "restore":
-                restore(profile, _force)
+                restore(profile, _force, args.pair)
                 profile_found = True
             break
 
@@ -61,7 +64,23 @@ def main():
 
 
 
-def backup(profile, overwrite = False):
+def backup(profile, overwrite = False, pair = None):
+    
+    active_pair = None
+
+    if pair is not None:
+        for directory_pair in profile["directoryPairs"]:
+            if directory_pair["name"] == pair:
+                active_pair = pair
+                break
+        
+        if active_pair is None:
+            print(f"Directory Pair '{pair}' not found in profile. Available directory pairs are:")
+            for directory_pair in profile["directoryPairs"]:
+                print(f"  - {directory_pair['name']}")
+            return
+
+    
     source_disk = profile["sourceDisk"]
     destination_disk = profile["destinationDisk"]
     stats = {
@@ -73,6 +92,8 @@ def backup(profile, overwrite = False):
         "skipped_files": 0,
     }
     for directory_pair in profile["directoryPairs"]:
+        if active_pair is not None and directory_pair["name"] != active_pair:
+            continue
         source_path = get_full_path(source_disk, directory_pair["source"])
         destination_path = get_full_path(destination_disk, directory_pair["destination"])
         if source_path.exists():
@@ -84,11 +105,29 @@ def backup(profile, overwrite = False):
             return None
     return stats
 
-def restore(profile, overwrite = False):
+def restore(profile, overwrite = False, pair = None):
+    
+    active_pair = None
+
+    if pair is not None:
+        for directory_pair in profile["directoryPairs"]:
+            if directory_pair["name"] == pair:
+                active_pair = pair
+                break
+        
+        if active_pair is None:
+            print(f"Directory Pair '{pair}' not found in profile. Available directory pairs are:")
+            for directory_pair in profile["directoryPairs"]:
+                print(f"  - {directory_pair['name']}")
+            return
+
+    
     source_disk = profile["sourceDisk"]
     destination_disk = profile["destinationDisk"]
     stats = {}
     for directory_pair in profile["directoryPairs"]:
+        if active_pair is not None and directory_pair["name"] != active_pair:
+            continue
         source_path = get_full_path(source_disk, directory_pair["source"])
         destination_path = get_full_path(destination_disk, directory_pair["destination"])
         if destination_path.exists():
