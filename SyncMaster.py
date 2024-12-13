@@ -40,26 +40,26 @@ def main():
     
     try:
         with file_path.open("r", encoding="utf-8") as file:
-            data = json.load(file)
+            config = json.load(file)
     except json.JSONDecodeError as e:
         print(f"Error decoding JSON: {e}")
         return None
     
     
-    profile_found = False
-    for profile in data:
+    config_found = False
+    for profile in config["profiles"]:
         if profile["name"] == args.profile:
             if args.command == "backup":
                 backup(profile, _force, args.pair)
-                profile_found = True
+                config_found = True
             elif args.command == "restore":
                 restore(profile, _force, args.pair)
-                profile_found = True
+                config_found = True
             break
 
-    if not profile_found:
+    if not config_found:
         print(f"Profile '{args.profile}' not found. Available profiles are:")
-        for profile in data:
+        for profile in config:
             print(f"  - {profile['name']}")
 
 

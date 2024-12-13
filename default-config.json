@@ -1,8 +1,8 @@
 {
-  "constants"{
-    "":""
+  "constants": {
+    "": ""
   },
-  "encryptionKeys"[
+  "encryptionKeys": [
     {
       "name": "",
       "value": ""
