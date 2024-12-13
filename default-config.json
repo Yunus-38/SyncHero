@@ -1,0 +1,25 @@
+{
+  "constants"{
+    "":""
+  },
+  "encryptionKeys"[
+    {
+      "name": "",
+      "value": ""
+    }
+  ],
+  "profiles": [
+    {
+      "name": "",
+      "sourceDisk": "C",
+      "destinationDisk": "I",
+      "directoryPairs": [
+        {
+          "name": "",
+          "source": "",
+          "destination": ""
+        }
+      ]
+    }
+  ]
+}
