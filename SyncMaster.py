@@ -5,39 +5,14 @@ import shutil
 import os
 
 def main():
-    # Step 1: Create the parser
-    parser = argparse.ArgumentParser(
-        description="SyncMaster: A tool for quick and easy file backups."
-    )
-
-    # Step 2: Add arguments
-    # First positional argument: the command
-    parser.add_argument(
-        "command", 
-        choices=["backup", "restore", "createConfig"],  # Limit the allowed commands
-        help="Command to execute: 'backup' to sync files, 'restore' to recover."
-    )
-
-    # Second positional argument: the profile name
-    parser.add_argument(
-        "profile",  # Name of the second positional argument
-        help="The profile name to use."
-    )
-
-    # Flag to force overwrite
-    parser.add_argument("-f", "--force", action="store_true", help="Overwrite existing files without prompt.")
-
-    # Parameter for the specific Directory Pair, ignores rest of the profile
-    parser.add_argument("-p", "--pair", type=str, help="Specify the specific directory pair to sync.") 
-
-    # Step 3: Parse arguments
-    args = parser.parse_args()
-
-    _force = args.force
+    
+    args = parse_commands()
 
     if args.command == "createConfig":
         create_config()
         return
+
+    _force = args.force
     
     file_path = Path.home() / ".syncMaster.json"
     
@@ -65,6 +40,29 @@ def main():
         for profile in config["profiles"]:
             print(f"  - {profile['name']}")
 
+
+def parse_commands():
+    # Create the main parser
+    parser = argparse.ArgumentParser(description="SyncMaster: A tool for quick and easy file backups.")
+    subparsers = parser.add_subparsers(dest="command", required=True, help="Available commands")
+
+    # Backup command
+    backup_parser = subparsers.add_parser("backup", help="Sync files to the destination.")
+    backup_parser.add_argument("profile", help="The profile name to use.")
+    backup_parser.add_argument("-f", "--force", action="store_true", help="Overwrite existing files without prompt.")
+    backup_parser.add_argument("-p", "--pair", type=str, help="Specify a specific directory pair to sync.")
+
+    # Restore command
+    restore_parser = subparsers.add_parser("restore", help="Recover files from a backup.")
+    restore_parser.add_argument("profile", help="The profile name to use.")
+    restore_parser.add_argument("-f", "--force", action="store_true", help="Overwrite existing files without prompt.")
+    restore_parser.add_argument("-p", "--pair", type=str, help="Specify a specific directory pair to sync.")
+
+    # CreateConfig command
+    subparsers.add_parser("createConfig", help="Create the default configuration file.")
+
+    # Parse the arguments
+    return parser.parse_args()
 
 
 def backup(profile, overwrite = False, pair = None):
