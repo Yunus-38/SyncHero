@@ -250,14 +250,31 @@ def file_exists(file_path):
 
 def create_config():
     print("Creating config file...")
-    return
 
-    # Create the config file
-    file_path = Path(__file__).resolve().parent / "default-config.json"
-    with file_path.open("r", encoding="utf-8") as file:
+    # Path to the default config file (assumes it's in the same directory as this script)
+    default_config_path = Path(__file__).resolve().parent / "default-config.json"
+
+    # Path to the destination config file in the user's home directory
+    home_config_path = Path.home() / ".syncMaster.json"
+
+    if home_config_path.exists():
+        print(f"Config file already exists at: {home_config_path}. Aborting to avoid overwriting.")
+        return
+
+    try:
+        # Read the default config file
+        with default_config_path.open("r", encoding="utf-8") as file:
             default_config = json.load(file)
-    with (Path.home() / ".syncMaster.json").open(".syncMaster.json", "w") as config_file:
-        json.dump(default_config, config_file, indent=4)
+
+        # Write the config to the home directory
+        with home_config_path.open("w", encoding="utf-8") as file:
+            json.dump(default_config, file, indent=4)
+        
+        print(f"Config file successfully created at: {home_config_path}")
+    except FileNotFoundError:
+        print(f"Default config file not found at: {default_config_path}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 # Boilerplate to run the program
 if __name__ == "__main__":
