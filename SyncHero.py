@@ -1,6 +1,6 @@
 import argparse
 import json
-from pathlib import Path
+from pathlib import Path    
 import shutil
 import os
 
@@ -14,7 +14,7 @@ def main():
 
     _force = args.force
     
-    file_path = Path.home() / ".syncMaster.json"
+    file_path = Path.home() / ".syncHero.json"
     
     try:
         with file_path.open("r", encoding="utf-8") as file:
@@ -43,7 +43,7 @@ def main():
 
 def parse_commands():
     # Create the main parser
-    parser = argparse.ArgumentParser(description="SyncMaster: A tool for quick and easy file backups.")
+    parser = argparse.ArgumentParser(description="SyncHero: A tool for quick and easy file backups.")
     subparsers = parser.add_subparsers(dest="command", required=True, help="Available commands")
 
     # Backup command
@@ -255,7 +255,7 @@ def create_config():
     default_config_path = Path(__file__).resolve().parent / "default-config.json"
 
     # Path to the destination config file in the user's home directory
-    home_config_path = Path.home() / ".syncMaster.json"
+    home_config_path = Path.home() / ".syncHero.json"
 
     if home_config_path.exists():
         print(f"Config file already exists at: {home_config_path}. Aborting to avoid overwriting.")
