@@ -35,8 +35,8 @@ def main():
 
     _force = args.force
 
-
-    file_path = Path(__file__).parent / "profiles.json"
+    
+    file_path = Path.home() / ".syncMaster.json"
     
     try:
         with file_path.open("r", encoding="utf-8") as file:
