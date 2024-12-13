@@ -14,7 +14,7 @@ def main():
     # First positional argument: the command
     parser.add_argument(
         "command", 
-        choices=["backup", "restore"],  # Limit the allowed commands
+        choices=["backup", "restore", "createConfig"],  # Limit the allowed commands
         help="Command to execute: 'backup' to sync files, 'restore' to recover."
     )
 
@@ -35,6 +35,9 @@ def main():
 
     _force = args.force
 
+    if args.command == "createConfig":
+        create_config()
+        return
     
     file_path = Path.home() / ".syncMaster.json"
     
@@ -45,7 +48,7 @@ def main():
         print(f"Error decoding JSON: {e}")
         return None
     
-    
+
     config_found = False
     for profile in config["profiles"]:
         if profile["name"] == args.profile:
@@ -59,7 +62,7 @@ def main():
 
     if not config_found:
         print(f"Profile '{args.profile}' not found. Available profiles are:")
-        for profile in config:
+        for profile in config["profiles"]:
             print(f"  - {profile['name']}")
 
 
@@ -247,7 +250,16 @@ def file_exists(file_path):
     path = Path(file_path)
     return path.is_file()
 
+def create_config():
+    print("Creating config file...")
+    return
 
+    # Create the config file
+    file_path = Path(__file__).resolve().parent / "default-config.json"
+    with file_path.open("r", encoding="utf-8") as file:
+            default_config = json.load(file)
+    with (Path.home() / ".syncMaster.json").open(".syncMaster.json", "w") as config_file:
+        json.dump(default_config, config_file, indent=4)
 
 # Boilerplate to run the program
 if __name__ == "__main__":
