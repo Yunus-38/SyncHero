@@ -7,7 +7,7 @@ SyncHero is a Python-based tool that automates copying files between directories
 Since SyncHero isn't submitted to the PyPI library, you can install it directly from GitHub:
 
 ```bash
-pip install git+https://github.com/yourusername/SyncHero.git
+pip install git+https://github.com/Yunus-38/SyncHero.git
 ```
 
 ## Usage
@@ -72,7 +72,7 @@ pip install git+https://github.com/yourusername/SyncHero.git
            },
            {
              "name": "Pictures",
-             "source": "Users/YourName/Pictures",
+             "source": "<user>/Pictures",
              "destination": "Backups/Pictures"
            }
          ]
