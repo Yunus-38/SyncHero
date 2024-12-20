@@ -80,7 +80,7 @@ pip install git+https://github.com/Yunus-38/SyncHero.git
      ]
    }
    ```
-   The <user> wildcard is replaced in the script with your user's home directory.
+   The `<user>` wildcard is replaced in the script with your user's home directory.
 
 4. **Run SyncHero**
    To copy files from the "source" to "destination" on each directory pair of a profile, run:
