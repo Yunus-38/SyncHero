@@ -1,2 +1,4 @@
 venv
 profiles.json
+build
+SyncHero.egg-info
