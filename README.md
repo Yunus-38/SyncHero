@@ -80,6 +80,7 @@ pip install git+https://github.com/Yunus-38/SyncHero.git
      ]
    }
    ```
+   The <user> wildcard is replaced in the script with your user's home directory.
 
 4. **Run SyncHero**
    To copy files from the "source" to "destination" on each directory pair of a profile, run:
@@ -101,4 +102,4 @@ pip install git+https://github.com/Yunus-38/SyncHero.git
   - Encrypt backups and decrypt during restores for added security.
 
 - **Dynamic Directory Parts**
-  - Define reusable constants for parts of directory paths, simplifying configuration in `directoryPairs`.
+  - Define reusable constants for parts of directory paths, simplifying configuration in `directoryPairs`. This is similar to the <user> wildcard.
