@@ -1,6 +1,6 @@
 # SyncHero
 
-SyncHero is a Python-based tool that automates copying files between directories. Whether you're managing backups or syncing project files, SyncHero simplifies the process with customizable profiles.
+SyncHero is a Python-based tool that automates copying files between directories. It is originally made to backup my game save files to an external disk.
 
 ## Installation
 
@@ -92,7 +92,7 @@ pip install git+https://github.com/yourusername/SyncHero.git
    ```
 
    Flags: 
-   ''-f'' or ''--force''
+   `-f` or `--force`
    Overrides files if same file exists in target directory.
 
 ## Planned Features
@@ -102,5 +102,3 @@ pip install git+https://github.com/yourusername/SyncHero.git
 
 - **Dynamic Directory Parts**
   - Define reusable constants for parts of directory paths, simplifying configuration in `directoryPairs`.
-
-SyncHero is a a learning project made to back up my game savefiles.
